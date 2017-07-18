@@ -7,7 +7,7 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: 'Hello Gas Tracker'
+            message: 'Hello Gas Tracker!'
         };
     }
     updateStateFromResponse(response) {

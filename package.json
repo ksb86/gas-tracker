@@ -4,8 +4,8 @@
   "description": "Code for gas tracker (react, heroku, etc)",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently 'webpack-dev-server --open --content-base build/' 'webpack --watch'",
-    "start": "webpack --config webpack.build.config.js",
+    "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
+    "start": "concurrently 'webpack --config webpack.build.config.js' 'node ./bin/www'",
     "build": "webpack --config webpack.build.config.js"
   },
   "repository": {
@@ -20,13 +20,17 @@
     "babel-preset-es2015-node-auto": "^0.1.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "body-parser": "^1.17.2",
     "concurrently": "^3.5.0",
+    "cors": "^2.8.4",
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^3.0.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+    "morgan": "^1.8.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "serve-favicon": "^2.4.3",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1"
   }

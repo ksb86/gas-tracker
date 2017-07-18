@@ -22363,7 +22363,7 @@ var App = function (_React$Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.state = {
-            message: 'Hello Gas Tracker'
+            message: 'Hello Gas Tracker!'
         };
         return _this;
     }

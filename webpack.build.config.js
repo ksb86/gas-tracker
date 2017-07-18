@@ -6,10 +6,10 @@ const pkg = require('./package.json');
 module.exports = [
     {
         entry: {
-            client: './src/index.js'
+            client: './client/index.js'
         },
         output: {
-            path: path.join(__dirname, 'dist'),
+            path: path.join(__dirname, 'public'),
             filename: `js/${pkg.name}.${pkg.version}.min.js`,
             chunkFilename: "[chunkhash].[id].chunk.js"
         },

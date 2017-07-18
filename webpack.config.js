@@ -6,10 +6,10 @@ const pkg = require('./package.json');
 module.exports = [
     {
         entry: {
-            client: './src/index.js'
+            client: './client/index.js'
         },
         output: {
-            path: path.join(__dirname, 'build'),
+            path: path.join(__dirname, 'dev'),
             filename: `${pkg.name}.js`
         },
         module: {
