@@ -1,0 +1,33 @@
+{
+  "name": "gas-tracker",
+  "version": "1.0.0",
+  "description": "Code for gas tracker (react, heroku, etc)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently 'webpack-dev-server --open --content-base build/' 'webpack --watch'",
+    "start": "webpack --config webpack.build.config.js",
+    "build": "webpack --config webpack.build.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ksb86/gas-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015-node-auto": "^0.1.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "concurrently": "^3.5.0",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^3.0.0",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.5",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.5.1"
+  }
+}
