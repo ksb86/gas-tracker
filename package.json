@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
-    "start": "concurrently 'webpack --config webpack.build.config.js' 'node ./bin/www'",
+    "start": "concurrently 'npm run build' 'node ./bin/www'",
     "build": "webpack --config webpack.build.config.js"
   },
   "repository": {
