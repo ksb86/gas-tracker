@@ -78,7 +78,7 @@ class App extends React.Component {
         // calculate price per mile
         var ppm = parseFloat(newState.total) / parseFloat(newState.miles);
         ppm = ppm.toFixed(2);
-        newState.ppm = (ppm === 'NaN' ? '--' : `$${ppm} mpg`);
+        newState.ppm = (ppm === 'NaN' ? '--' : `$${ppm} per mi`);
 
         // disable form if any inputs are empty
         newState.submitDisabled = !this.isFormFull(newState);
