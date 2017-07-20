@@ -1,3 +1,106 @@
+form button[type=submit] {
+  background: #27AE61;
+  width: 100%;
+  height: 100%;
+  display: block;
+  padding: 15px;
+  font-size: 20px;
+  border: 1px solid grey;
+  color: white;
+  outline: none;
+  cursor: pointer;
+}
+form button:active {
+  background: #058c40;
+}
+form button:disabled {
+  opacity: 0.4;
+}
+form button.form-reset-btn {
+  background: #f1f1f1;
+  width: 100%;
+  height: 100%;
+  display: block;
+  padding: 5px;
+  font-size: 20px;
+  border: 1px solid #d0d0d0;
+  color: #666;
+  outline: none;
+}
+form button.form-reset-btn:active {
+  background: #e1e1e1;
+}
+.row {
+  width: 100%;
+  height: 85px;
+  overflow: auto;
+}
+.small-row {
+  height: 50px;
+}
+.cell {
+  box-sizing: border-box;
+  width: 50%;
+  height: 100%;
+  float: left;
+  border: 1px solid grey;
+  background: #f8f8f8;
+  overflow: hidden;
+}
+.cell.error,
+.cell.error .label-text {
+  border-color: #c80000;
+  color: #c80000;
+}
+.cell label {
+  width: 100%;
+  height: 100%;
+  display: block;
+  padding: 5px 15px 15px;
+  box-sizing: border-box;
+}
+.cell input {
+  border: none;
+  outline: none;
+  background: #f8f8f8;
+  margin-top: 7px;
+  width: 90%;
+  padding-left: 0;
+  margin-left: 0;
+}
+.cell input[type=date] {
+  font-size: 20px;
+}
+.cell input[type=text] {
+  font-size: 24px;
+}
+.cell select {
+  border: 1px solid #aaa;
+  font-size: 21px;
+  margin: 5px;
+}
+.cell .label-text {
+  display: block;
+  font-size: 14px;
+  color: #888;
+}
+.loader-container {
+  text-align: center;
+}
+.loader-container img {
+  max-width: 90px;
+  visibility: hidden;
+}
+.loader-container.loading img {
+  visibility: visible;
+}
+.entry-result {
+  text-align: center;
+  padding-top: 70px;
+}
+.entry-result .mpg-result {
+  font-size: 40px;
+}
 .bottom-nav {
   height: 70px;
   box-sizing: border-box;

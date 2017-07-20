@@ -12,6 +12,12 @@ module.exports = [
             path: path.join(__dirname, 'dev'),
             filename: `${pkg.name}.js`
         },
+        devServer: {
+            disableHostCheck: true,
+            host: '0.0.0.0',
+            open: true,
+            inline: true
+        },
         module: {
             rules: [
                 {
