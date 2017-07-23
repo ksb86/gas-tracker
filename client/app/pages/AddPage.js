@@ -10,7 +10,7 @@ class AddPage extends React.Component {
     }
     render() {
         return (
-            <div>
+            <div className="add-page">
                 <Form
                     state={this.props.state}
                     onInputChange={this.props.onInputChange}

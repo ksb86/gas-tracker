@@ -2,9 +2,23 @@ import React from 'react';
 import AddPage from './pages/AddPage'
 import ListPage from './pages/ListPage';
 import Nav from './nav/Nav';
+import Firebase from 'firebase';
+import ReactFireMixin from 'reactfire'; // ES6
+import reactMixin from 'react-mixin';
 
 import './app.less';
 
+
+var config = {
+    apiKey: "AIzaSyDOsVAVwZ_pEdVcimDq8OcMyCLqlXAn7P0",
+    authDomain: "ksbgastracker-ca9ed.firebaseapp.com",
+    databaseURL: "https://ksbgastracker-ca9ed.firebaseio.com",
+    storageBucket: "ksbgastracker-ca9ed.appspot.com",
+};
+const fbDataLocation = 'entries2';
+
+Firebase.initializeApp(config);
+const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
 
 const getTodayDate = () => {
     var today = new Date();
@@ -33,11 +47,16 @@ const initialState = {
     view: 'add',
     formDisabled: false,
     submitDisabled: true,
+    entries: []
 };
+
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = initialState;
+    }
+    componentDidMount () {
+      this.bindAsArray(ref, 'entries')
     }
 
     updateStateFromResponse(response) {
@@ -116,12 +135,22 @@ class App extends React.Component {
     };
     onFormSubmit = (e) => {
         e.preventDefault();
-        // todo: save the data here
-        alert(`send to firebase! ${JSON.stringify(this.state)}`);
+        var entry = {
+            ppg: this.state.ppg,
+            total: this.state.total,
+            miles: this.state.miles,
+            odometer: this.state.odometer,
+            date: this.state.date,
+            vehicle: this.state.vehicle
+        };
+        var newPostKey = Firebase.database().ref(fbDataLocation).push().key;
+        var updates = {};
+        updates[`/${fbDataLocation}/${newPostKey}`] = entry;
+        Firebase.database().ref().update(updates);
     };
-    deleteEntry = (id) => {
-        // todo: delete entry here
-        console.log(`delete this: ${id}`);
+    deleteEntry = (e) => {
+        console.log(`delete this: ${e.target.dataset.id}`);
+        return Firebase.database().ref(`${fbDataLocation}/${e.target.dataset.id}`).remove()
     };
     render() {
         return (
@@ -144,5 +173,7 @@ class App extends React.Component {
         )
     }
 }
+
+reactMixin(App.prototype, ReactFireMixin)
 
 export default App;
