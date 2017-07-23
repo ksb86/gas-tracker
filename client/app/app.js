@@ -5,19 +5,24 @@ import Nav from './nav/Nav';
 import Firebase from 'firebase';
 import ReactFireMixin from 'reactfire'; // ES6
 import reactMixin from 'react-mixin';
+import fbConfigDev from '../../fbConfig.json';
+let fbConfig = {
+    "apiKey": process.env.apiKey,
+    "authDomain": process.env.authDomain,
+    "databaseURL": process.env.databaseURL,
+    "projectId": process.env.projectId,
+    "storageBucket": process.env.storageBucket,
+    "messagingSenderId": process.env.messagingSenderId
+};
+if (process.env.NODE_ENV === 'development') {
+    fbConfig = fbConfigDev;
+}
 
 import './app.less';
 
-
-var config = {
-    apiKey: "AIzaSyDOsVAVwZ_pEdVcimDq8OcMyCLqlXAn7P0",
-    authDomain: "ksbgastracker-ca9ed.firebaseapp.com",
-    databaseURL: "https://ksbgastracker-ca9ed.firebaseio.com",
-    storageBucket: "ksbgastracker-ca9ed.appspot.com",
-};
 const fbDataLocation = 'entries2';
 
-Firebase.initializeApp(config);
+Firebase.initializeApp(fbConfig);
 const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
 
 const getTodayDate = () => {

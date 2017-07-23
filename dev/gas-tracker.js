@@ -25744,7 +25744,7 @@ module.exports = ReactDOMInvalidARIAHook;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -25782,7 +25782,11 @@ var _reactMixin = __webpack_require__(257);
 
 var _reactMixin2 = _interopRequireDefault(_reactMixin);
 
-__webpack_require__(259);
+var _fbConfig = __webpack_require__(259);
+
+var _fbConfig2 = _interopRequireDefault(_fbConfig);
+
+__webpack_require__(260);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -25793,15 +25797,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } // ES6
 
 
-var config = {
-    apiKey: "AIzaSyDOsVAVwZ_pEdVcimDq8OcMyCLqlXAn7P0",
-    authDomain: "ksbgastracker-ca9ed.firebaseapp.com",
-    databaseURL: "https://ksbgastracker-ca9ed.firebaseio.com",
-    storageBucket: "ksbgastracker-ca9ed.appspot.com"
+var fbConfig = {
+    "apiKey": process.env.apiKey,
+    "authDomain": process.env.authDomain,
+    "databaseURL": process.env.databaseURL,
+    "projectId": process.env.projectId,
+    "storageBucket": process.env.storageBucket,
+    "messagingSenderId": process.env.messagingSenderId
 };
+if (true) {
+    fbConfig = _fbConfig2.default;
+}
+
 var fbDataLocation = 'entries2';
 
-_firebase2.default.initializeApp(config);
+_firebase2.default.initializeApp(fbConfig);
 var ref = _firebase2.default.database().ref(fbDataLocation).orderByChild("date");
 
 var getTodayDate = function getTodayDate() {
@@ -25981,6 +25991,7 @@ var App = function (_React$Component) {
 (0, _reactMixin2.default)(App.prototype, _reactfire2.default);
 
 exports.default = App;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
 
 /***/ }),
 /* 212 */
@@ -32661,6 +32672,19 @@ mixins.REDUCE_RIGHT = function(_left, _right, key){
 
 /***/ }),
 /* 259 */
+/***/ (function(module, exports) {
+
+module.exports = {
+	"apiKey": "AIzaSyAXej3N8bJqr_wnKGQmnVOL7xEGFcgksuY",
+	"authDomain": "gas-logger-a0ea5.firebaseapp.com",
+	"databaseURL": "https://gas-logger-a0ea5.firebaseio.com",
+	"projectId": "gas-logger-a0ea5",
+	"storageBucket": "gas-logger-a0ea5.appspot.com",
+	"messagingSenderId": "869552108117"
+};
+
+/***/ }),
+/* 260 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

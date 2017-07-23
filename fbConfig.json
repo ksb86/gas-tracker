@@ -1,1 +1,8 @@
-{}
+{
+    "apiKey": "AIzaSyAXej3N8bJqr_wnKGQmnVOL7xEGFcgksuY",
+    "authDomain": "gas-logger-a0ea5.firebaseapp.com",
+    "databaseURL": "https://gas-logger-a0ea5.firebaseio.com",
+    "projectId": "gas-logger-a0ea5",
+    "storageBucket": "gas-logger-a0ea5.appspot.com",
+    "messagingSenderId": "869552108117"
+}
