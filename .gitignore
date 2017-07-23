@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
 tmp/
-
+dev/
+!dev/index.html
 fbConfig.json
