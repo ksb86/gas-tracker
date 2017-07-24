@@ -2,5 +2,6 @@
 node_modules/
 tmp/
 
+fbConfig.json
 dev/css
 dev/js
