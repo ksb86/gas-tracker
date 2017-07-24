@@ -4,8 +4,8 @@
   "description": "Code for gas tracker (react, heroku, etc)",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently 'NODE_ENV=development webpack-dev-server --open --content-base dev/' 'webpack --watch'",
-    "start": "concurrently 'NODE_ENV=production webpack --config webpack.build.config.js' 'node ./bin/www'",
+    "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
+    "start": "concurrently 'webpack --config webpack.build.config.js' 'node ./bin/www'",
     "build": "webpack --config webpack.build.config.js"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "reactfire": "^1.0.0",
     "serve-favicon": "^2.4.3",
     "webpack": "^3.3.0",
-    "webpack-dev-server": "^2.5.1"
+    "webpack-dev-server": "^2.5.1",
+    "whatwg-fetch": "^2.0.3"
   }
 }

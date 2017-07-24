@@ -4,12 +4,16 @@ const request = require('request');
 const async = require('async');
 
 /* GET endpoint */
-router.get('/endpoint', function(req, res, next) {
-    request('https://url.com', function(error, response, body) {
-        if (error || !body || body === undefined) {
-            return res.json({'success': false});
-        }
-        return res.json({'success': true, 'data': JSON.parse(body)});
+router.get('/fbconfig', function(req, res, next) {
+    // these values are stored as config vars (environment variables) in heroku
+    // client app calls these on start
+    return res.json({
+        "apiKey": process.env.apiKey,
+        "authDomain": process.env.authDomain,
+        "databaseURL": process.env.databaseURL,
+        "projectId": process.env.projectId,
+        "storageBucket": process.env.storageBucket,
+        "messagingSenderId": process.env.messagingSenderId
     });
 });
 

@@ -5,25 +5,10 @@ import Nav from './nav/Nav';
 import Firebase from 'firebase';
 import ReactFireMixin from 'reactfire'; // ES6
 import reactMixin from 'react-mixin';
-import fbConfigDev from '../../fbConfig.json';
-let fbConfig = {
-    "apiKey": process.env.apiKey,
-    "authDomain": process.env.authDomain,
-    "databaseURL": process.env.databaseURL,
-    "projectId": process.env.projectId,
-    "storageBucket": process.env.storageBucket,
-    "messagingSenderId": process.env.messagingSenderId
-};
-if (process.env.NODE_ENV === 'development') {
-    fbConfig = fbConfigDev;
-}
 
 import './app.less';
 
 const fbDataLocation = 'entries2';
-
-Firebase.initializeApp(fbConfig);
-const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
 
 const getTodayDate = () => {
     var today = new Date();
@@ -63,7 +48,9 @@ class App extends React.Component {
         };
     }
     componentWillMount () {
-      this.bindAsArray(ref, 'entries')
+        Firebase.initializeApp(this.props.fbConfig);
+        const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
+        this.bindAsArray(ref, 'entries')
     }
 
     updateNavState = (page) => {
