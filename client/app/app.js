@@ -8,7 +8,7 @@ import reactMixin from 'react-mixin';
 
 import './app.less';
 
-const fbDataLocation = 'entries2';
+const fbDataLocation = 'entries';
 
 const getTodayDate = () => {
     var today = new Date();
