@@ -50,7 +50,7 @@ class App extends React.Component {
     componentWillMount () {
         Firebase.initializeApp(this.props.fbConfig);
         const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
-        this.bindAsArray(ref, 'entries')
+        this.bindAsArray(ref, 'entries');
     }
 
     updateNavState = (page) => {
