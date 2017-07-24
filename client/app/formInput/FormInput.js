@@ -11,7 +11,7 @@ class FormInput extends React.Component {
             <div className="cell">
                 <label className="hvr-wobble-horizontal">
                     <span className="label-text">{this.props.label}</span>
-                    <input onChange={this.props.onChange} name={this.props.name} value={this.props.value} type={this.props.type} />
+                    <input disabled={this.props.disabled} onChange={this.props.onChange} name={this.props.name} value={this.props.value} type={this.props.type} />
                 </label>
             </div>
         );

@@ -3,5 +3,5 @@ node_modules/
 tmp/
 
 fbConfig.json
-dev/
-!dev/index.html
+dev/css
+dev/js

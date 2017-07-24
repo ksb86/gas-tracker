@@ -10,7 +10,7 @@ module.exports = [
         },
         output: {
             path: path.join(__dirname, 'dev'),
-            filename: `${pkg.name}.js`
+            filename: `js/${pkg.name}.js`
         },
         devServer: {
             disableHostCheck: true,
@@ -40,7 +40,7 @@ module.exports = [
             ]
         },
         plugins: [
-            new ExtractTextPlugin(`${pkg.name}.css`),
+            new ExtractTextPlugin(`css/${pkg.name}.css`),
             new webpack.DefinePlugin({'process.env.NODE_ENV': JSON.stringify('development')})
         ]
     }

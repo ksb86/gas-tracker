@@ -10,13 +10,15 @@ class Results extends React.Component {
     render() {
         return (
             <div>
-                <div className="entry-result">
+                <div className={`entry-result ${(this.props.state.form.entrySuccess) ? 'success' : ''}`}>
+                    {this.props.state.form.entrySuccess &&
+                        <div className="entry-success-message">Entry was added!</div>}
                     {/* <div className="loader-container">
                         <img src="loader.gif" />
                     </div> */}
-                    <div className="vehicle-result">{this.props.state.vehicle.toUpperCase()}</div>
-                    <div className="mpg-result">{this.props.state.mpg}</div>
-                    <div className="ppm-result">{this.props.state.ppm}</div>
+                    <div className="vehicle-result">{this.props.state.form.vehicle.toUpperCase()}</div>
+                    <div className="mpg-result">{this.props.state.form.mpg}</div>
+                    <div className="ppm-result">{this.props.state.form.ppm}</div>
                 </div>
             </div>
         )

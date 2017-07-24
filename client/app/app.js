@@ -40,36 +40,31 @@ const getTodayDate = () => {
     return `${yyyy}-${mm}-${dd}`;
 };
 
-const initialState = {
+const initialFormState = {
     ppg: '',
     total: '',
     miles: '',
     odometer: '',
     date: getTodayDate(),
     vehicle: 'odyssey',
+    entrySuccess: false,
+    submitDisabled: true,
     mpg: '--',
     ppm: '--',
-    view: 'add',
-    formDisabled: false,
-    submitDisabled: true,
-    entries: []
 };
 
 class App extends React.Component {
     constructor(props) {
         super(props);
-        this.state = initialState;
+        this.state = {
+            form: {...initialFormState},
+            view: 'add',
+            entries: []
+        };
     }
-    componentDidMount () {
+    componentWillMount () {
       this.bindAsArray(ref, 'entries')
     }
-
-    updateStateFromResponse(response) {
-        let prevState = this.state;
-        this.setState((prevState) => ({
-            message: response.data.message
-        }));
-    };
 
     updateNavState = (page) => {
         var newState = { ...this.state };
@@ -78,7 +73,7 @@ class App extends React.Component {
     };
 
     isFormFull = (newState) => {
-         if (newState.ppg.length > 0 && newState.total.length > 0 && newState.miles.length > 0 && newState.odometer.length > 0 && newState.date.length > 0) {
+         if (newState.form.ppg.length > 0 && newState.form.total.length > 0 && newState.form.miles.length > 0 && newState.form.odometer.length > 0 && newState.form.date.length > 0) {
              return true;
          }
          return false;
@@ -92,20 +87,20 @@ class App extends React.Component {
         // copy state
         var newState = { ... this.state };
         // add value to corresponding input in state
-        newState[e.target.name] = cleanedValue;
+        newState.form[e.target.name] = cleanedValue;
 
         // calculate miles per gallon
-        var mpg = parseInt(newState.miles) / (parseFloat(newState.total) / parseFloat(newState.ppg));
+        var mpg = parseInt(newState.form.miles) / (parseFloat(newState.form.total) / parseFloat(newState.form.ppg));
         mpg = mpg.toFixed(1);
-        newState.mpg = (mpg === 'NaN' ? '--' : `${mpg} mpg`);
+        newState.form.mpg = (mpg === 'NaN' ? '--' : `${mpg} mpg`);
 
         // calculate price per mile
-        var ppm = parseFloat(newState.total) / parseFloat(newState.miles);
+        var ppm = parseFloat(newState.form.total) / parseFloat(newState.form.miles);
         ppm = ppm.toFixed(2);
-        newState.ppm = (ppm === 'NaN' ? '--' : `$${ppm} per mi`);
+        newState.form.ppm = (ppm === 'NaN' ? '--' : `$${ppm} per mi`);
 
         // disable form if any inputs are empty
-        newState.submitDisabled = !this.isFormFull(newState);
+        newState.form.submitDisabled = !this.isFormFull(newState);
 
         // update state
         this.setState(newState);
@@ -115,10 +110,10 @@ class App extends React.Component {
         var newState = { ... this.state };
 
         // add value to corresponding input in state
-        newState[e.target.name] = e.target.value;
+        newState.form[e.target.name] = e.target.value;
 
         // disable form if any inputs are empty
-        newState.submitDisabled = !this.isFormFull(newState);
+        newState.form.submitDisabled = !this.isFormFull(newState);
 
         // update state
         this.setState(newState);
@@ -128,7 +123,7 @@ class App extends React.Component {
         var newState = { ... this.state };
 
         // add value to corresponding input in state
-        newState[e.target.name] = e.target.value;
+        newState.form[e.target.name] = e.target.value;
 
         // update state
         this.setState(newState);
@@ -136,25 +131,48 @@ class App extends React.Component {
     resetForm = (e) => {
         e.preventDefault();
         // set state to initial state
-        this.setState(initialState);
+        var newState = { ... this.state };
+
+        //using the 'const initialFormState' that's set at the top doesn't work for some reason..
+        newState.form = {
+            ppg: '',
+            total: '',
+            miles: '',
+            odometer: '',
+            date: getTodayDate(),
+            vehicle: 'odyssey',
+            entrySuccess: false,
+            submitDisabled: true,
+            mpg: '--',
+            ppm: '--',
+        };
+        this.setState(newState);
     };
     onFormSubmit = (e) => {
         e.preventDefault();
+        // make entry object from the state
         var entry = {
-            ppg: this.state.ppg,
-            total: this.state.total,
-            miles: this.state.miles,
-            odometer: this.state.odometer,
-            date: this.state.date,
-            vehicle: this.state.vehicle
+            ppg: this.state.form.ppg,
+            total: this.state.form.total,
+            miles: this.state.form.miles,
+            odometer: this.state.form.odometer,
+            date: this.state.form.date,
+            vehicle: this.state.form.vehicle
         };
+
+        // add it to firebase
         var newPostKey = Firebase.database().ref(fbDataLocation).push().key;
         var updates = {};
         updates[`/${fbDataLocation}/${newPostKey}`] = entry;
         Firebase.database().ref().update(updates);
+
+        // update state for successful entry addition.  should be in firebase success callback..
+        var newState = { ...this.state };
+        newState.form.entrySuccess = true;
+        this.setState(newState);
     };
     deleteEntry = (e) => {
-        console.log(`delete this: ${e.target.dataset.id}`);
+        // delete entry by id from firebase
         return Firebase.database().ref(`${fbDataLocation}/${e.target.dataset.id}`).remove()
     };
     render() {
