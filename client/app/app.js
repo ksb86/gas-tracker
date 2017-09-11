@@ -48,7 +48,7 @@ class App extends React.Component {
         };
     }
     componentWillMount () {
-        Firebase.initializeApp(this.props.fbConfig);
+        Firebase.initializeApp(window.fbConfig);
         const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
         this.bindAsArray(ref, 'entries');
     }
