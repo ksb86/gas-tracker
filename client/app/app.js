@@ -48,6 +48,9 @@ class App extends React.Component {
         };
     }
     componentWillMount () {
+        if (!window.fbConfig) {
+            console.error('no firebase config data found...');
+        }
         Firebase.initializeApp(window.fbConfig);
         const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
         this.bindAsArray(ref, 'entries');
