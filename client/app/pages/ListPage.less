@@ -1,5 +1,30 @@
 .list-page {
     h3 {
-        margin-left: 15px;
+        margin: 0;
+        padding: 10px 15px;
+        background: darkorange;
+        color: white;
+    }
+    .statsContainer {
+        display: flex;
+        justify-content: space-between;
+        > div {
+            border-right: 1px solid #585858;
+            padding: 0 20px 20px;
+            box-sizing: border-box;
+            width: 50%;
+            &:last-of-type {
+                border: none;
+            }
+        }
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px;
+            border-bottom: 1px solid #efefef;
+            &:last-of-type {
+                border: none;
+            }
+        }
     }
 }

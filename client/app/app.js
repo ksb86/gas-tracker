@@ -178,7 +178,8 @@ class App extends React.Component {
                         resetForm={this.resetForm}
                     />}
                 {this.state.view === 'list' &&
-                    <ListPage state={this.state}
+                    <ListPage
+                        entries={this.state.entries}
                         deleteEntry={this.deleteEntry}
                     />}
                 <Nav state={this.state} updateNavState={this.updateNavState}/>
