@@ -32,6 +32,8 @@ class ListPage extends React.Component {
         let crvTotalMiles = 0;
         let crvMaxGallons = 0;
         let crvTotalGallons = 0;
+        let crvTotalFillups = 0;
+        let crvFirstDate = null;
 
         let odysseyMaxCost = 0;
         let odysseyTotalCost = 0;
@@ -39,6 +41,8 @@ class ListPage extends React.Component {
         let odysseyTotalMiles = 0;
         let odysseyMaxGallons = 0;
         let odysseyTotalGallons = 0;
+        let odysseyTotalFillups = 0;
+        let odysseyFirstDate = null;
 
         this.props.entries.forEach(entryData => {
             if (entryData.vehicle === 'crv') {
@@ -54,6 +58,11 @@ class ListPage extends React.Component {
                 if (Number(entryData.miles) > crvMaxMiles) {
                     crvMaxMiles = Number(entryData.miles);
                 }
+                crvTotalFillups++;
+                // get first fillup for crv
+                if (!crvFirstDate) {
+                    crvFirstDate = entryData.date;
+                }
             } else if (entryData.vehicle === 'odyssey') {
                 if (Number(entryData.total) > odysseyMaxCost) {
                     odysseyMaxCost = Number(entryData.total);
@@ -67,8 +76,22 @@ class ListPage extends React.Component {
                 if (Number(entryData.miles) > odysseyMaxMiles) {
                     odysseyMaxMiles = Number(entryData.miles);
                 }
+                odysseyTotalFillups++;
+                // get first fillup for crv
+                if (!odysseyFirstDate) {
+                    odysseyFirstDate = entryData.date;
+                }
             }
         });
+
+        let crvMonthsSinceFirstFillup = ((new Date()).getTime() - (new Date(crvFirstDate)).getTime()) / 1000 / 60 / 60 / 24 / 30.52;
+        let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - (new Date(odysseyFirstDate)).getTime()) / 1000 / 60 / 60 / 24 / 30.52;
+        // let year = (new Date(`${entryData.date} mdt`)).getFullYear();
+        // if (!crvMonthTotals[`y${year}m${month}`]) {
+        //     crvMonthTotals[`y${year}m${month}`] = [];
+        // }
+        // crvMonthTotals[`y${year}m${month}`].push(Number(entryData.total));
+
 
         this.setState({
             entries: this.props.entries,
@@ -78,14 +101,23 @@ class ListPage extends React.Component {
             crvTotalMiles,
             crvMaxGallons,
             crvTotalGallons,
+            crvTotalFillups,
+            crvMonthsSinceFirstFillup,
             odysseyMaxCost,
             odysseyTotalCost,
             odysseyMaxMiles,
             odysseyTotalMiles,
             odysseyMaxGallons,
-            odysseyTotalGallons
+            odysseyTotalGallons,
+            odysseyTotalFillups,
+            odysseyMonthsSinceFirstFillup
         });
     }
+    // getMonthlyAverageCost = monthlyFillups => {
+    //     monthlyFillups.reduce((accumulator, currentValue) => {
+    //
+    //     });
+    // }
     buildEntries = () => {
         var orderedArray = this.state.entries;
         orderedArray.sort(function(a, b) {
@@ -126,7 +158,11 @@ class ListPage extends React.Component {
                         </div> {/* 0.000 */}
                         <div className="stats-row">
                             <span>Avg $/month:</span>
-                            <span>...</span>
+                            <span>${(Math.round(this.state.crvTotalCost / this.state.crvMonthsSinceFirstFillup * 1000) / 1000).toFixed(2)}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Avg $/fillup:</span>
+                            <span>${(Math.round(this.state.crvTotalCost / this.state.crvTotalFillups * 1000) / 1000).toFixed(2)}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max fill $:</span>
@@ -153,7 +189,11 @@ class ListPage extends React.Component {
                         </div> {/* 0.000 */}
                         <div className="stats-row">
                             <span>Avg $/month:</span>
-                            <span>...</span>
+                            <span>${(Math.round(this.state.odysseyTotalCost / this.state.odysseyMonthsSinceFirstFillup * 1000) / 1000).toFixed(2)}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Avg $/fillup:</span>
+                            <span>${(Math.round(this.state.odysseyTotalCost / this.state.odysseyTotalFillups * 1000) / 1000).toFixed(2)}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max fill $:</span>
