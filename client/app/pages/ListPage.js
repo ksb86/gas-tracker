@@ -7,6 +7,7 @@ class ListPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            filter: '',
             avgMpg: 0,
             entries: [],
 
@@ -128,19 +129,37 @@ class ListPage extends React.Component {
                 return -1;
             }
         });
-
-        const entries = orderedArray.map(entryData => {
-            return (
-                <Entry
+        let previous = 0;
+        const entries = orderedArray.reduce((accumulator, entryData) => {
+            if (this.state.filter) {
+                if (this.state.filter === entryData.vehicle) {
+                    entryData.previous = previous;
+                    accumulator.push(<Entry
+                        key={entryData['.key']}
+                        entryData={entryData}
+                        deleteEntry={this.props.deleteEntry}
+                    />);
+                    previous = entryData.miles;
+                }
+            } else {
+                accumulator.push(<Entry
                     key={entryData['.key']}
                     entryData={entryData}
                     deleteEntry={this.props.deleteEntry}
-                />
-            );
-        });
+                />);
+            }
+
+            return accumulator;
+        }, []);
 
         return entries;
-    }
+    };
+    filter = function(filter) {
+        this.setState({
+            ...this.state,
+            filter
+        });
+    };
     render() {
         return (
             <div className="list-page">
@@ -209,7 +228,7 @@ class ListPage extends React.Component {
                         </div>
                     </div>
                 </div>
-                <h3>Fillups</h3>
+                <h3>Fillups <button onClick={() => this.filter('')}>All</button><button onClick={() => this.filter('crv')}>CRV</button><button onClick={() => this.filter('odyssey')}>Odyssey</button></h3>
                 {this.state && this.state.entries.length &&
                     this.buildEntries()
                 }
