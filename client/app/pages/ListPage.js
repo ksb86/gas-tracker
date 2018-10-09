@@ -1,5 +1,6 @@
 import React from 'react';
 import Entry from '../entry/Entry';
+import LineChart from 'react-linechart';
 
 import './ListPage.less';
 
@@ -160,9 +161,36 @@ class ListPage extends React.Component {
             filter
         });
     };
+    buildGraphData = () => {
+        const data = [
+          {
+            label: "Odyssey",
+            data: [{ x: 1, y: 10 }, { x: 2, y: 10 }, { x: 3, y: 10 }]
+          },
+          {
+            label: "CRV",
+            data: [{ x: 1, y: 10 }, { x: 2, y: 10 }, { x: 3, y: 10 }]
+          }
+        ];
+
+        return data;
+    }
     render() {
         return (
             <div className="list-page">
+                <h3>Stats</h3>
+                <div className="graphContainer">
+                    <LineChart
+                        width={600}
+                        height={400}
+                        data={[
+                            {
+                                color: "steelblue",
+                                points: [{x: 1, y: 2}, {x: 3, y: 5}, {x: 7, y: -3}]
+                            }
+                        ]}
+                    />
+                </div>
                 <h3>Stats</h3>
                 <div className="statsContainer">
                     <div>
