@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
-    "start": "concurrently 'webpack --config webpack.build.config.js' 'node ./bin/www'",
+    "prod": "webpack --config webpack.build.config.js -p && yarn restart",
+    "restart": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./bin/www",
     "build": "webpack --config webpack.build.config.js"
   },
   "repository": {
@@ -39,5 +40,8 @@
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1",
     "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
+    "pm2": "^3.2.2"
   }
 }
