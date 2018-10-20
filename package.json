@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
-    "prod": "webpack --config webpack.build.config.js -p && yarn restart",
+    "prod": "yarn && webpack --config webpack.build.config.js -p && yarn restart",
     "restart": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./bin/www",
     "build": "webpack --config webpack.build.config.js"
   },
