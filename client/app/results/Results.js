@@ -10,7 +10,7 @@ class Results extends React.Component {
     render() {
         return (
             <div>
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <div className="g-signin2" data-onsuccess="onSignIn"></div>
                 <div className={`entry-result ${(this.props.state.form.entrySuccess) ? 'success' : ''}`}>
                     {this.props.state.form.entrySuccess &&
                         <div className="entry-success-message">Entry was added!</div>}
