@@ -7,4 +7,4 @@ dev/css/
 dev/js/
 public/css/
 public/js/
-dist/
+dist/*
