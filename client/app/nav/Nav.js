@@ -1,16 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux'
+
+import {
+    updateView
+} from '../../actions';
 
 import './Nav.less';
 
 class Nav extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    onNavClick = (e) => {
-        this.props.updateNavState(e.target.dataset.page);
+    onNavClick = e => {
+        this.props.updateView(e.target.dataset.page);
     };
-    isActive = (page) => {
-        if (this.props.state.view === page) {
+    isActive = page => {
+        if (this.props.view === page) {
             return 'active';
         }
         return null;
@@ -29,4 +31,14 @@ class Nav extends React.Component {
     }
 }
 
-export default Nav;
+const mapStateToProps = state => {
+    return {
+        view: 'add'
+    };
+};
+
+const mapDispatchToProps = {
+    updateView
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Nav);

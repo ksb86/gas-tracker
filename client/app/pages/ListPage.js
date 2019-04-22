@@ -1,15 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import Firebase from 'firebase';
 import Entry from '../entry/Entry';
+import { fbDataLocation } from '../../constants';
 
 import './ListPage.less';
 
 class ListPage extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             filter: '',
             avgMpg: 0,
-            entries: [],
 
             crvMaxCost: 0,
             crvTotalCost: 0,
@@ -27,6 +29,7 @@ class ListPage extends React.Component {
         }
     }
     componentDidMount() {
+        console.log('hi');
         let crvMaxCost = 0;
         let crvTotalCost = 0;
         let crvMaxMiles = 0;
@@ -62,7 +65,7 @@ class ListPage extends React.Component {
                 crvTotalFillups++;
                 // get first fillup for crv
                 if (!crvFirstDate) {
-                    crvFirstDate = entryData.date;
+                    crvFirstDate = entryData.timestamp;
                 }
             } else if (entryData.vehicle === 'odyssey') {
                 if (Number(entryData.total) > odysseyMaxCost) {
@@ -80,13 +83,12 @@ class ListPage extends React.Component {
                 odysseyTotalFillups++;
                 // get first fillup for crv
                 if (!odysseyFirstDate) {
-                    odysseyFirstDate = entryData.date;
+                    odysseyFirstDate = entryData.timestamp;
                 }
             }
         });
-
-        let crvMonthsSinceFirstFillup = ((new Date()).getTime() - (new Date(crvFirstDate)).getTime()) / 1000 / 60 / 60 / 24 / 30.52;
-        let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - (new Date(odysseyFirstDate)).getTime()) / 1000 / 60 / 60 / 24 / 30.52;
+        let crvMonthsSinceFirstFillup = ((new Date()).getTime() - crvFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
+        let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - odysseyFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
         // let year = (new Date(`${entryData.date} mdt`)).getFullYear();
         // if (!crvMonthTotals[`y${year}m${month}`]) {
         //     crvMonthTotals[`y${year}m${month}`] = [];
@@ -95,7 +97,6 @@ class ListPage extends React.Component {
 
 
         this.setState({
-            entries: this.props.entries,
             crvMaxCost,
             crvTotalCost,
             crvMaxMiles,
@@ -119,40 +120,35 @@ class ListPage extends React.Component {
     //
     //     });
     // }
+    deleteEntry = e => {
+        // delete entry by id from firebase
+        return Firebase.database().ref(`${fbDataLocation}/${e.target.dataset.id}`).remove()
+    };
+
     buildEntries = () => {
-        var orderedArray = this.state.entries;
-        orderedArray.sort(function(a, b) {
-            if (a.date < b.date) {
-                return 1;
-            }
-            if (a.date > b.date) {
-                return -1;
-            }
-        });
         let previous = 0;
-        const entries = orderedArray.reduce((accumulator, entryData) => {
+
+        return this.props.entries.reduce((accumulator, entryData) => {
             if (this.state.filter) {
                 if (this.state.filter === entryData.vehicle) {
                     entryData.previous = previous;
                     accumulator.push(<Entry
-                        key={entryData['.key']}
+                        key={entryData['key']}
                         entryData={entryData}
-                        deleteEntry={this.props.deleteEntry}
+                        deleteEntry={this.deleteEntry}
                     />);
                     previous = entryData.miles;
                 }
             } else {
                 accumulator.push(<Entry
-                    key={entryData['.key']}
+                    key={entryData['key']}
                     entryData={entryData}
-                    deleteEntry={this.props.deleteEntry}
+                    deleteEntry={this.deleteEntry}
                 />);
             }
 
             return accumulator;
         }, []);
-
-        return entries;
     };
     filter = function(filter) {
         this.setState({
@@ -229,12 +225,28 @@ class ListPage extends React.Component {
                     </div>
                 </div>
                 <h3>Fillups <button onClick={() => this.filter('')}>All</button><button onClick={() => this.filter('crv')}>CRV</button><button onClick={() => this.filter('odyssey')}>Odyssey</button></h3>
-                {this.state && this.state.entries.length &&
-                    this.buildEntries()
-                }
+                {this.buildEntries()}
             </div>
         );
     }
 }
 
-export default ListPage;
+const mapStateToProps = state => {
+    const orderedArray = [...state.entries];
+    orderedArray.sort(function(a, b) {
+        if (a.timestamp < b.timestamp) {
+            return 1;
+        }
+        if (a.timestamp > b.timestamp) {
+            return -1;
+        }
+    });
+
+    return {
+        entries: orderedArray
+    };
+};
+const mapDispatchToProps = {
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListPage);
