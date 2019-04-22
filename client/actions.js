@@ -5,7 +5,6 @@ export const UPDATE_FORM = 'UPDATE_FORM';
 export const updateEntriesFromFireBase = payload => {
     const entries = Object.values(payload);
 
-    console.log('entries.length: ', entries.length);
     return {
         type: UPDATE_ENTRIES,
         payload: entries

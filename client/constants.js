@@ -1,1 +1,1 @@
-export const fbDataLocation = 'TESTentriesTEST';
+export const fbDataLocation = 'entries';

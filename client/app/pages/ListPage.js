@@ -29,7 +29,6 @@ class ListPage extends React.Component {
         }
     }
     componentDidMount() {
-        console.log('hi');
         let crvMaxCost = 0;
         let crvTotalCost = 0;
         let crvMaxMiles = 0;

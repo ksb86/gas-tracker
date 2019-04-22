@@ -20,7 +20,7 @@ class App extends React.Component {
             console.error('no firebase config data found...');
         }
         Firebase.initializeApp(window.fbConfig);
-        const ref = Firebase.database().ref(fbDataLocation).orderByChild("date");
+        const ref = Firebase.database().ref(fbDataLocation).orderByChild("timestamp");
         ref.on('value', snapshot => {
             this.props.updateEntriesFromFireBase(snapshot.val())
         });

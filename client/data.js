@@ -13,7 +13,6 @@ export const initialState = {
     total: '',
     miles: '',
     odometer: '',
-    date: getToday(),
     vehicle: 'odyssey',
     entrySuccess: false,
     submitDisabled: true,
@@ -26,7 +25,6 @@ export const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case UPDATE_ENTRIES:
-            console.log('action.payload: ', action.payload.length);
             return {
                 ...state,
                 entries: action.payload
