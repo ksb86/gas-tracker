@@ -21,10 +21,24 @@ const formatSingleDigitInt = number => {
     return `0${number}`;
 };
 
+const formatTime = date => {
+    const hour = date.getHours();
+    const minute = formatSingleDigitInt(date.getMinutes());
+    if (hour === 0) {
+        return `12:${minute}a`;
+    } else if (hour < 12) {
+        return `${hour}:${minute}a`;
+    } else if (hour === 12) {
+        return `${hour}:${minute}p`;
+    }
+
+    return `${hour - 12}:${minute}p`;
+};
+
 export const formatDate = timestamp => {
     let adjustedDate = new Date(timestamp);
     // subtract the difference between UTC and current time zone
     // adjustedDate = new Date(timestamp - adjustedDate.getTimezoneOffset()*60*1000);
 
-    return `${adjustedDate.getFullYear()}-${formatSingleDigitInt(adjustedDate.getMonth()+1)}-${formatSingleDigitInt(adjustedDate.getDate())} ${adjustedDate.getHours()}:${adjustedDate.getMinutes()}`;
+    return `${adjustedDate.getFullYear()}-${formatSingleDigitInt(adjustedDate.getMonth()+1)}-${formatSingleDigitInt(adjustedDate.getDate())} (${formatTime(adjustedDate)})`;
 };
