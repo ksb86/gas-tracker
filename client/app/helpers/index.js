@@ -24,7 +24,7 @@ const formatSingleDigitInt = number => {
 export const formatDate = timestamp => {
     let adjustedDate = new Date(timestamp);
     // subtract the difference between UTC and current time zone
-    adjustedDate = new Date(timestamp - adjustedDate.getTimezoneOffset()*60*1000);
+    // adjustedDate = new Date(timestamp - adjustedDate.getTimezoneOffset()*60*1000);
 
     return `${adjustedDate.getFullYear()}-${formatSingleDigitInt(adjustedDate.getMonth()+1)}-${formatSingleDigitInt(adjustedDate.getDate())}`;
 };
