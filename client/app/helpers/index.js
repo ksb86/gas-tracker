@@ -26,5 +26,5 @@ export const formatDate = timestamp => {
     // subtract the difference between UTC and current time zone
     // adjustedDate = new Date(timestamp - adjustedDate.getTimezoneOffset()*60*1000);
 
-    return `${adjustedDate.getFullYear()}-${formatSingleDigitInt(adjustedDate.getMonth()+1)}-${formatSingleDigitInt(adjustedDate.getDate())}`;
+    return `${adjustedDate.getFullYear()}-${formatSingleDigitInt(adjustedDate.getMonth()+1)}-${formatSingleDigitInt(adjustedDate.getDate())} ${adjustedDate.getHours()}:${adjustedDate.getMinutes()}`;
 };
