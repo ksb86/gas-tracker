@@ -1,6 +1,6 @@
 {
   "name": "gas-tracker",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Code for gas tracker (react, heroku, etc)",
   "main": "index.js",
   "scripts": {
@@ -39,10 +39,12 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
     "morgan": "^1.8.2",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "react-mixin": "^3.0.5",
+    "react-redux": "^7.0.2",
     "reactfire": "^1.0.0",
+    "redux": "^4.0.1",
     "serve-favicon": "^2.4.3",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.5.1",
