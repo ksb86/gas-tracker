@@ -2,15 +2,13 @@ const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-
-
 module.exports = {
     name: "DEVELOPMENT_CLIENT",
     target: "web",
     node: {
         __dirname: false
     },
-    entry: ["@babel/polyfill", "./src/client.js"],
+    entry: ["@babel/polyfill", "./src/index.js"],
     output: {
         path: path.join(__dirname, "dist"),
         filename: "client.js"

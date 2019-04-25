@@ -15,7 +15,7 @@ const pkg = require('./package.json');
 
 // const config = require('../config.js');
 const indexHtml = fs.readFileSync(path.join(__dirname, './src/index.html'), 'utf8');
-const _get = require('./src/helpers/_.js');
+const _get = require('./serverHelpers/_');
 
 // global.pgPool = new Pool({
 //   user: config.pgUser,
@@ -43,7 +43,8 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-server.use(express.static(path.join(__dirname, process.env.NODE_ENV === 'dev' ? 'dist' : 'public')));
+console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+server.use(express.static(path.join(__dirname, process.env.NODE_ENV === 'dev' ? 'dist' : 'dist')));
 // server.use(favicon('dist'));
 
 server.get('*', (req, res, next) => {
@@ -51,6 +52,7 @@ server.get('*', (req, res, next) => {
     console.log(process.env.NODE_ENV);
     const cssPath = (process.env.NODE_ENV === 'dev' ? '/styles.css' : `/${pkg.name}.${pkg.version}.min.css`);
     const jsPath = (process.env.NODE_ENV === 'dev' ? '/client.js' : `/${pkg.name}.${pkg.version}.min.js`);
+    console.log(cssPath, jsPath);
     res.send(
         indexHtml.replace('__CSS__', cssPath).replace('__JS__', jsPath)
     );

@@ -10,7 +10,7 @@ module.exports = {
     node: {
         __dirname: false
     },
-    entry: ["@babel/polyfill", "./src/client.js"],
+    entry: ["@babel/polyfill", "./src/index.js"],
     output: {
         path: path.join(__dirname, "dist"),
         filename: `${pkg.name}.${pkg.version}.min.js`
