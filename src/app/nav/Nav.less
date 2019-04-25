@@ -1,0 +1,31 @@
+.bottom-nav {
+    height: 50px;
+    box-sizing: border-box;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+
+    .nav-item {
+        float: left;
+        border-left: 1px solid grey;
+        width: 50%;
+        box-sizing: border-box;
+        height: 100%;
+        padding: 10px;
+        background: lightgray;
+        font-size: 25px;
+        font-weight: 100;
+        vertical-align: middle;
+        text-align: center;
+        cursor: pointer;
+
+        &.active {
+            background: #fafafa;
+            border-top: 0;
+        }
+
+        &:first-child {
+            border-left: none;
+        }
+    }
+}

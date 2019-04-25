@@ -4,10 +4,17 @@
   "description": "Code for gas tracker (react, heroku, etc)",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
-    "prod": "yarn && webpack --config webpack.build.config.js -p && yarn restart",
-    "restart": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./bin/www",
-    "build": "webpack --config webpack.build.config.js"
+    "prod": "NODE_ENV=prod concurrently 'yarn' 'yarn clean' && yarn build:prod && yarn restart",
+    "restart": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./server.js",
+    "dev": "NODE_ENV=dev concurrently -n 'build:dev,server' -c 'bgBlue.bold,bgGreen.bold' 'yarn build:dev' 'yarn server'",
+    "build:dev": "webpack --config webpack.dev.js -w",
+    "build:prod": "webpack --config webpack.prod.js -p",
+    "server": "nodemon ./server",
+    "clean": "echo hi",
+    "devOld": "concurrently 'webpack-dev-server --open --content-base dev/' 'webpack --watch'",
+    "prodOld": "yarn && webpack --config webpack.build.config.js -p && yarn restart",
+    "restartOld": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./bin/www",
+    "buildOld": "webpack --config webpack.build.config.js"
   },
   "repository": {
     "type": "git",
@@ -42,6 +49,8 @@
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.4.3",
+    "nodemon": "^1.18.11",
     "pm2": "^3.2.2"
   }
 }
