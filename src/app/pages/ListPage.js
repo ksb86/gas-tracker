@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Firebase from 'firebase';
 import Entry from '../entry/Entry';
-import { fbDataLocation } from '../../constants';
+// import { fbDataLocation } from '../../constants';
 
 import './ListPage.less';
 
@@ -121,7 +121,7 @@ class ListPage extends React.Component {
     // }
     deleteEntry = e => {
         // delete entry by id from firebase
-        return Firebase.database().ref(`${fbDataLocation}/${e.target.dataset.id}`).remove()
+        return Firebase.database().ref(`${process.env.FB_PATH}/${e.target.dataset.id}`).remove()
     };
 
     buildEntries = () => {

@@ -7,3 +7,4 @@ dev/css/
 dev/js/
 public/css/
 public/js/
+.env

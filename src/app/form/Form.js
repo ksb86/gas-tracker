@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Firebase from 'firebase';
 
 import { updateForm } from '../../actions';
-import { fbDataLocation } from '../../constants';
+// import { fbDataLocation } from '../../constants';
 import { initialState } from '../../data';
 
 import {
@@ -75,10 +75,10 @@ class Form extends React.Component {
         };
 
         // add it to firebase
-        const newPostKey = Firebase.database().ref(fbDataLocation).push().key;
+        const newPostKey = Firebase.database().ref(process.env.FB_PATH).push().key;
         const updates = {};
         entry.key = newPostKey;
-        updates[`/${fbDataLocation}/${newPostKey}`] = entry;
+        updates[`/${process.env.FB_PATH}/${newPostKey}`] = entry;
         Firebase.database().ref().update(updates);
 
         // update state for successful entry addition.  should be in firebase success callback..

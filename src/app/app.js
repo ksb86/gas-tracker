@@ -4,9 +4,9 @@ import AddPage from './pages/AddPage'
 import ListPage from './pages/ListPage';
 import Nav from './nav/Nav';
 import Firebase from 'firebase';
-import {
-    fbDataLocation
-} from '../constants';
+// import {
+//     fbDataLocation
+// } from '../constants';
 
 import {
     updateEntriesFromFireBase
@@ -20,7 +20,7 @@ class App extends React.Component {
             console.error('no firebase config data found...');
         }
         Firebase.initializeApp(window.fbConfig);
-        const ref = Firebase.database().ref(fbDataLocation).orderByChild("timestamp");
+        const ref = Firebase.database().ref(process.env.FB_PATH).orderByChild("timestamp");
         ref.on('value', snapshot => {
             this.props.updateEntriesFromFireBase(snapshot.val())
         });

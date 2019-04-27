@@ -9,6 +9,7 @@ const favicon = require('serve-favicon');
 const compression = require('compression');
 const morgan = require('morgan');
 const useragent = require('useragent');
+require('dotenv').config();
 // const { Pool } = require('pg');
 const server = express();
 const pkg = require('./package.json');
@@ -43,7 +44,7 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-console.log('process.env.NODE_ENV:', process.env.NODE_ENV);
+console.log('process.env.FB_PATH:', process.env.FB_PATH);
 server.use(express.static(path.join(__dirname, process.env.NODE_ENV === 'dev' ? 'dist' : 'dist')));
 // server.use(favicon('dist'));
 

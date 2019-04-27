@@ -7,7 +7,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux'
 
 const store = createStore(data);
-
 render(
     <Provider store={store}>
         <App/>

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+require('dotenv').config();
 
 module.exports = {
     name: "DEVELOPMENT_CLIENT",
@@ -39,7 +40,10 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin("styles.css"),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+                FB_PATH: JSON.stringify(process.env.FB_PATH)
+            }
         })
     ]
 };
