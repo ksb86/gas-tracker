@@ -15,7 +15,8 @@ class Nav extends React.Component {
         if (this.props.view === page) {
             return 'active';
         }
-        return null;
+
+        return '';
     };
     render() {
         return (
@@ -33,7 +34,7 @@ class Nav extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        view: 'add'
+        view: state.view
     };
 };
 

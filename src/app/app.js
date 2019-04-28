@@ -4,9 +4,6 @@ import AddPage from './pages/AddPage'
 import ListPage from './pages/ListPage';
 import Nav from './nav/Nav';
 import Firebase from 'firebase';
-// import {
-//     fbDataLocation
-// } from '../constants';
 
 import {
     updateEntriesFromFireBase

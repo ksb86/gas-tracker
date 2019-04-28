@@ -3,12 +3,6 @@ import { connect } from 'react-redux';
 import Firebase from 'firebase';
 
 import { updateForm } from '../../actions';
-// import { fbDataLocation } from '../../constants';
-import { initialState } from '../../data';
-
-import {
-    getToday
-} from '../helpers';
 
 import FormInput from '../formInput/FormInput';
 import './Form.less';

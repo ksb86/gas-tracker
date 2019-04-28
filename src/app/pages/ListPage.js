@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux'
 import Firebase from 'firebase';
 import Entry from '../entry/Entry';
-// import { fbDataLocation } from '../../constants';
 
 import './ListPage.less';
 
@@ -10,25 +9,10 @@ class ListPage extends React.Component {
     constructor() {
         super();
         this.state = {
-            filter: '',
-            avgMpg: 0,
-
-            crvMaxCost: 0,
-            crvTotalCost: 0,
-            crvMaxMiles: 0,
-            crvTotalMiles: 0,
-            crvMaxGallons: 0,
-            crvTotalGallons: 0,
-
-            odysseyMaxCost: 0,
-            odysseyTotalCost: 0,
-            odysseyMaxMiles: 0,
-            odysseyTotalMiles: 0,
-            odysseyMaxGallons: 0,
-            odysseyTotalGallons: 0
-        }
+            filter: ''
+        };
     }
-    componentDidMount() {
+    calculateStats = () => {
         let crvMaxCost = 0;
         let crvTotalCost = 0;
         let crvMaxMiles = 0;
@@ -36,7 +20,7 @@ class ListPage extends React.Component {
         let crvMaxGallons = 0;
         let crvTotalGallons = 0;
         let crvTotalFillups = 0;
-        let crvFirstDate = null;
+        let crvFirstDate = Date.now();
 
         let odysseyMaxCost = 0;
         let odysseyTotalCost = 0;
@@ -45,7 +29,7 @@ class ListPage extends React.Component {
         let odysseyMaxGallons = 0;
         let odysseyTotalGallons = 0;
         let odysseyTotalFillups = 0;
-        let odysseyFirstDate = null;
+        let odysseyFirstDate = Date.now();
 
         this.props.entries.forEach(entryData => {
             if (entryData.vehicle === 'crv') {
@@ -63,7 +47,7 @@ class ListPage extends React.Component {
                 }
                 crvTotalFillups++;
                 // get first fillup for crv
-                if (!crvFirstDate) {
+                if (entryData.timestamp < crvFirstDate) {
                     crvFirstDate = entryData.timestamp;
                 }
             } else if (entryData.vehicle === 'odyssey') {
@@ -81,44 +65,32 @@ class ListPage extends React.Component {
                 }
                 odysseyTotalFillups++;
                 // get first fillup for crv
-                if (!odysseyFirstDate) {
+                if (entryData.timestamp < odysseyFirstDate) {
                     odysseyFirstDate = entryData.timestamp;
                 }
             }
         });
         let crvMonthsSinceFirstFillup = ((new Date()).getTime() - crvFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
         let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - odysseyFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
-        // let year = (new Date(`${entryData.date} mdt`)).getFullYear();
-        // if (!crvMonthTotals[`y${year}m${month}`]) {
-        //     crvMonthTotals[`y${year}m${month}`] = [];
-        // }
-        // crvMonthTotals[`y${year}m${month}`].push(Number(entryData.total));
 
-
-        this.setState({
-            crvMaxCost,
-            crvTotalCost,
+        return {
+            crvAvgMpg: (Math.round(crvTotalMiles / crvTotalGallons * 100) / 100).toFixed(1),
+            crvAvgCostPerMile: (Math.round(crvTotalCost / crvTotalMiles * 1000) / 1000).toFixed(3),
+            crvAvgCostPerMonth: (Math.round(crvTotalCost / crvMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
+            crvAvgCostPerFillup: (Math.round(crvTotalCost / crvTotalFillups * 1000) / 1000).toFixed(2),
+            crvMaxFillCost: crvMaxCost.toFixed(2),
+            crvMaxGallons: (Math.round(crvMaxGallons * 100) / 100).toFixed(2),
             crvMaxMiles,
-            crvTotalMiles,
-            crvMaxGallons,
-            crvTotalGallons,
-            crvTotalFillups,
-            crvMonthsSinceFirstFillup,
-            odysseyMaxCost,
-            odysseyTotalCost,
-            odysseyMaxMiles,
-            odysseyTotalMiles,
-            odysseyMaxGallons,
-            odysseyTotalGallons,
-            odysseyTotalFillups,
-            odysseyMonthsSinceFirstFillup
-        });
-    }
-    // getMonthlyAverageCost = monthlyFillups => {
-    //     monthlyFillups.reduce((accumulator, currentValue) => {
-    //
-    //     });
-    // }
+            odysseyAvgMpg: (Math.round(odysseyTotalMiles / odysseyTotalGallons * 100) / 100).toFixed(1),
+            odysseyAvgCostPerMile: (Math.round(odysseyTotalCost / odysseyTotalMiles * 1000) / 1000).toFixed(3),
+            odysseyAvgCostPerMonth: (Math.round(odysseyTotalCost / odysseyMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
+            odysseyAvgCostPerFillup: (Math.round(odysseyTotalCost / odysseyTotalFillups * 1000) / 1000).toFixed(2),
+            odysseyMaxFillCost: odysseyMaxCost.toFixed(2),
+            odysseyMaxGallons: (Math.round(odysseyMaxGallons * 100) / 100).toFixed(2),
+            odysseyMaxMiles
+        };
+    };
+
     deleteEntry = e => {
         // delete entry by id from firebase
         return Firebase.database().ref(`${process.env.FB_PATH}/${e.target.dataset.id}`).remove()
@@ -156,6 +128,23 @@ class ListPage extends React.Component {
         });
     };
     render() {
+        const {
+            crvAvgMpg,
+            crvAvgCostPerMile,
+            crvAvgCostPerMonth,
+            crvAvgCostPerFillup,
+            crvMaxFillCost,
+            crvMaxGallons,
+            crvMaxMiles,
+            odysseyAvgMpg,
+            odysseyAvgCostPerMile,
+            odysseyAvgCostPerMonth,
+            odysseyAvgCostPerFillup,
+            odysseyMaxFillCost,
+            odysseyMaxGallons,
+            odysseyMaxMiles
+        } = this.calculateStats();
+
         return (
             <div className="list-page">
                 <h3>Stats</h3>
@@ -164,62 +153,62 @@ class ListPage extends React.Component {
                         <h4>CRV</h4>
                         <div className="stats-row">
                             <span>Avg mpg:</span>
-                            <span>{(Math.round(this.state.crvTotalMiles / this.state.crvTotalGallons * 100) / 100).toFixed(1)}</span>
+                            <span>{crvAvgMpg}</span>
                         </div> {/* 00.0 */}
                         <div className="stats-row">
                             <span>Avg $/mi:</span>
-                            <span>${(Math.round(this.state.crvTotalCost / this.state.crvTotalMiles * 1000) / 1000).toFixed(3)}</span>
+                            <span>${crvAvgCostPerMile}</span>
                         </div> {/* 0.000 */}
                         <div className="stats-row">
                             <span>Avg $/month:</span>
-                            <span>${(Math.round(this.state.crvTotalCost / this.state.crvMonthsSinceFirstFillup * 1000) / 1000).toFixed(2)}</span>
+                            <span>${crvAvgCostPerMonth}</span>
                         </div>
                         <div className="stats-row">
                             <span>Avg $/fillup:</span>
-                            <span>${(Math.round(this.state.crvTotalCost / this.state.crvTotalFillups * 1000) / 1000).toFixed(2)}</span>
+                            <span>${crvAvgCostPerFillup}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max fill $:</span>
-                            <span>${this.state.crvMaxCost.toFixed(2)}</span>
+                            <span>${crvMaxFillCost}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max gal:</span>
-                            <span>{(Math.round(this.state.crvMaxGallons * 100) / 100).toFixed(2)}</span>
+                            <span>{crvMaxGallons}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max miles:</span>
-                            <span>{this.state.crvMaxMiles}</span>
+                            <span>{crvMaxMiles}</span>
                         </div>
                     </div>
                     <div>
                         <h4>Odyssey</h4>
                         <div className="stats-row">
                             <span>Avg mpg:</span>
-                            <span>{(Math.round(this.state.odysseyTotalMiles / this.state.odysseyTotalGallons * 100) / 100).toFixed(1)}</span>
+                            <span>{odysseyAvgMpg}</span>
                         </div> {/* 00.0 */}
                         <div className="stats-row">
                             <span>Avg $/mi:</span>
-                            <span>${(Math.round(this.state.odysseyTotalCost / this.state.odysseyTotalMiles * 1000) / 1000).toFixed(3)}</span>
+                            <span>${odysseyAvgCostPerMile}</span>
                         </div> {/* 0.000 */}
                         <div className="stats-row">
                             <span>Avg $/month:</span>
-                            <span>${(Math.round(this.state.odysseyTotalCost / this.state.odysseyMonthsSinceFirstFillup * 1000) / 1000).toFixed(2)}</span>
+                            <span>${odysseyAvgCostPerMonth}</span>
                         </div>
                         <div className="stats-row">
                             <span>Avg $/fillup:</span>
-                            <span>${(Math.round(this.state.odysseyTotalCost / this.state.odysseyTotalFillups * 1000) / 1000).toFixed(2)}</span>
+                            <span>${odysseyAvgCostPerFillup}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max fill $:</span>
-                            <span>${this.state.odysseyMaxCost.toFixed(2)}</span>
+                            <span>${odysseyMaxFillCost}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max gal:</span>
-                            <span>{(Math.round(this.state.odysseyMaxGallons * 100) / 100).toFixed(2)}</span>
+                            <span>{odysseyMaxGallons}</span>
                         </div>
                         <div className="stats-row">
                             <span>Max miles:</span>
-                            <span>{this.state.odysseyMaxMiles}</span>
+                            <span>{odysseyMaxMiles}</span>
                         </div>
                     </div>
                 </div>
