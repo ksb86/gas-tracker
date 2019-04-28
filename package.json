@@ -4,13 +4,13 @@
   "description": "Code for gas tracker (react, heroku, etc)",
   "main": "index.js",
   "scripts": {
-    "prod": "NODE_ENV=production concurrently 'yarn' 'yarn clean' && yarn build:prod && yarn restart",
+    "prod": "concurrently 'yarn' 'yarn clean' && yarn build:prod && yarn restart",
     "restart": "pm2 stop gas-tracker; pm2 start --name gas-tracker ./server.js",
     "dev": "concurrently -n 'build:dev,server' -c 'bgBlue.bold,bgGreen.bold' 'yarn build:dev' 'yarn server'",
     "build:dev": "webpack --config webpack.dev.js -w",
     "build:prod": "webpack --config webpack.prod.js -p",
     "server": "nodemon ./server",
-    "clean": "echo hi",
+    "clean": "echo yarn clean",
     "tester": "node test.js"
   },
   "repository": {

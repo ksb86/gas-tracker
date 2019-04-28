@@ -44,16 +44,11 @@ server.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-console.log('process.env.FB_PATH:', process.env.FB_PATH);
-server.use(express.static(path.join(__dirname, process.env.NODE_ENV === 'dev' ? 'dist' : 'dist')));
-// server.use(favicon('dist'));
+server.use(express.static(path.join(__dirname, 'dist')));
 
 server.get('*', (req, res, next) => {
-
-    console.log(process.env.NODE_ENV);
     const cssPath = (process.env.NODE_ENV === 'dev' ? '/styles.css' : `/${pkg.name}.${pkg.version}.min.css`);
     const jsPath = (process.env.NODE_ENV === 'dev' ? '/client.js' : `/${pkg.name}.${pkg.version}.min.js`);
-    console.log(cssPath, jsPath);
     res.send(
         indexHtml.replace('__CSS__', cssPath).replace('__JS__', jsPath)
     );
