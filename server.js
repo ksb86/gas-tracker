@@ -120,7 +120,7 @@ server.get('*', (req, res, next) => {
 //     });
 // });
 
-const port = (process.env.NODE_ENV === 'dev') ? 3000 : 4000;
+const port = (process.env.NODE_ENV === 'dev') ? 3000 : 3000;
 server.listen(port, function() {
     console.log(`Listening on port ${port} @ ${tz().tz('America/Boise').format('MMM DD, YYYY - hh:mm:ssa')} (mt)`);
 });
