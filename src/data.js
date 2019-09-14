@@ -13,7 +13,7 @@ export const initialState = {
     total: '',
     miles: '',
     odometer: '',
-    vehicle: 'odyssey',
+    vehicle: 'crv',
     entrySuccess: false,
     submitDisabled: true,
     mpg: '--',

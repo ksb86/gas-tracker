@@ -22,15 +22,6 @@ class ListPage extends React.Component {
         let crvTotalFillups = 0;
         let crvFirstDate = Date.now();
 
-        let odysseyMaxCost = 0;
-        let odysseyTotalCost = 0;
-        let odysseyMaxMiles = 0;
-        let odysseyTotalMiles = 0;
-        let odysseyMaxGallons = 0;
-        let odysseyTotalGallons = 0;
-        let odysseyTotalFillups = 0;
-        let odysseyFirstDate = Date.now();
-
         let civicMaxCost = 0;
         let civicTotalCost = 0;
         let civicMaxMiles = 0;
@@ -59,24 +50,6 @@ class ListPage extends React.Component {
                 if (entryData.timestamp < crvFirstDate) {
                     crvFirstDate = entryData.timestamp;
                 }
-            } else if (entryData.vehicle === 'odyssey') {
-                if (Number(entryData.total) > odysseyMaxCost) {
-                    odysseyMaxCost = Number(entryData.total);
-                }
-                odysseyTotalCost += Number(entryData.total);
-                odysseyTotalMiles += Number(entryData.miles);
-                odysseyTotalGallons += (entryData.total / (entryData.ppg));
-                if ((entryData.total / (entryData.ppg)) > odysseyMaxGallons) {
-                    odysseyMaxGallons = (entryData.total / (entryData.ppg));
-                }
-                if (Number(entryData.miles) > odysseyMaxMiles) {
-                    odysseyMaxMiles = Number(entryData.miles);
-                }
-                odysseyTotalFillups++;
-                // get first fillup for crv
-                if (entryData.timestamp < odysseyFirstDate) {
-                    odysseyFirstDate = entryData.timestamp;
-                }
             } else if (entryData.vehicle === 'civic') {
                 if (Number(entryData.total) > civicMaxCost) {
                     civicMaxCost = Number(entryData.total);
@@ -98,7 +71,6 @@ class ListPage extends React.Component {
             }
         });
         let crvMonthsSinceFirstFillup = ((new Date()).getTime() - crvFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
-        let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - odysseyFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
         let civicMonthsSinceFirstFillup = ((new Date()).getTime() - civicFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
 
         return {
@@ -109,13 +81,6 @@ class ListPage extends React.Component {
             crvMaxFillCost: crvMaxCost.toFixed(2),
             crvMaxGallons: (Math.round(crvMaxGallons * 100) / 100).toFixed(2),
             crvMaxMiles,
-            odysseyAvgMpg: (Math.round(odysseyTotalMiles / odysseyTotalGallons * 100) / 100).toFixed(1),
-            odysseyAvgCostPerMile: (Math.round(odysseyTotalCost / odysseyTotalMiles * 1000) / 1000).toFixed(3),
-            odysseyAvgCostPerMonth: (Math.round(odysseyTotalCost / odysseyMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
-            odysseyAvgCostPerFillup: (Math.round(odysseyTotalCost / odysseyTotalFillups * 1000) / 1000).toFixed(2),
-            odysseyMaxFillCost: odysseyMaxCost.toFixed(2),
-            odysseyMaxGallons: (Math.round(odysseyMaxGallons * 100) / 100).toFixed(2),
-            odysseyMaxMiles,
             civicAvgMpg: (Math.round(civicTotalMiles / civicTotalGallons * 100) / 100).toFixed(1),
             civicAvgCostPerMile: (Math.round(civicTotalCost / civicTotalMiles * 1000) / 1000).toFixed(3),
             civicAvgCostPerMonth: (Math.round(civicTotalCost / civicMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
@@ -171,13 +136,6 @@ class ListPage extends React.Component {
             crvMaxFillCost,
             crvMaxGallons,
             crvMaxMiles,
-            odysseyAvgMpg,
-            odysseyAvgCostPerMile,
-            odysseyAvgCostPerMonth,
-            odysseyAvgCostPerFillup,
-            odysseyMaxFillCost,
-            odysseyMaxGallons,
-            odysseyMaxMiles,
             civicAvgMpg,
             civicAvgCostPerMile,
             civicAvgCostPerMonth,
@@ -223,37 +181,6 @@ class ListPage extends React.Component {
                         </div>
                     </div>
                     <div>
-                        <h4>Odyssey</h4>
-                        <div className="stats-row">
-                            <span>Avg mpg:</span>
-                            <span>{odysseyAvgMpg}</span>
-                        </div> {/* 00.0 */}
-                        <div className="stats-row">
-                            <span>Avg $/mi:</span>
-                            <span>${odysseyAvgCostPerMile}</span>
-                        </div> {/* 0.000 */}
-                        <div className="stats-row">
-                            <span>Avg $/month:</span>
-                            <span>${odysseyAvgCostPerMonth}</span>
-                        </div>
-                        <div className="stats-row">
-                            <span>Avg $/fillup:</span>
-                            <span>${odysseyAvgCostPerFillup}</span>
-                        </div>
-                        <div className="stats-row">
-                            <span>Max fill $:</span>
-                            <span>${odysseyMaxFillCost}</span>
-                        </div>
-                        <div className="stats-row">
-                            <span>Max gal:</span>
-                            <span>{odysseyMaxGallons}</span>
-                        </div>
-                        <div className="stats-row">
-                            <span>Max miles:</span>
-                            <span>{odysseyMaxMiles}</span>
-                        </div>
-                    </div>
-                    <div>
                         <h4>Civic</h4>
                         <div className="stats-row">
                             <span>Avg mpg:</span>
@@ -289,7 +216,6 @@ class ListPage extends React.Component {
                     Fillups
                     <button onClick={() => this.filter('')}>All</button>
                     <button onClick={() => this.filter('crv')}>CRV</button>
-                    <button onClick={() => this.filter('odyssey')}>Odyssey</button>
                     <button onClick={() => this.filter('civic')}>Civic</button>
                 </h3>
                 {this.buildEntries()}

@@ -88,7 +88,7 @@ class Form extends React.Component {
             total: '',
             miles: '',
             odometer: '',
-            vehicle: 'odyssey',
+            vehicle: 'crv',
             entrySuccess: false,
             submitDisabled: true,
             mpg: '--',
@@ -140,7 +140,6 @@ class Form extends React.Component {
                         <label htmlFor="vehicle" className="hvr-wobble-horizontal">
                             <span className="label-text">Vehicle</span>
                             <select disabled={this.props.entrySuccess} onChange={this.onVehicleChange} value={this.props.vehicle} name="vehicle" id="vehicle">
-                                <option value="odyssey">Odyssey</option>
                                 <option value="crv">CRV</option>
                                 <option value="civic">Civic</option>
                             </select>
