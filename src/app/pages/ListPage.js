@@ -31,6 +31,15 @@ class ListPage extends React.Component {
         let odysseyTotalFillups = 0;
         let odysseyFirstDate = Date.now();
 
+        let civicMaxCost = 0;
+        let civicTotalCost = 0;
+        let civicMaxMiles = 0;
+        let civicTotalMiles = 0;
+        let civicMaxGallons = 0;
+        let civicTotalGallons = 0;
+        let civicTotalFillups = 0;
+        let civicFirstDate = Date.now();
+
         this.props.entries.forEach(entryData => {
             if (entryData.vehicle === 'crv') {
                 if (Number(entryData.total) > crvMaxCost) {
@@ -68,10 +77,29 @@ class ListPage extends React.Component {
                 if (entryData.timestamp < odysseyFirstDate) {
                     odysseyFirstDate = entryData.timestamp;
                 }
+            } else if (entryData.vehicle === 'civic') {
+                if (Number(entryData.total) > civicMaxCost) {
+                    civicMaxCost = Number(entryData.total);
+                }
+                civicTotalCost += Number(entryData.total);
+                civicTotalMiles += Number(entryData.miles);
+                civicTotalGallons += (entryData.total / (entryData.ppg));
+                if ((entryData.total / (entryData.ppg)) > civicMaxGallons) {
+                    civicMaxGallons = (entryData.total / (entryData.ppg));
+                }
+                if (Number(entryData.miles) > civicMaxMiles) {
+                    civicMaxMiles = Number(entryData.miles);
+                }
+                civicTotalFillups++;
+                // get first fillup for crv
+                if (entryData.timestamp < civicFirstDate) {
+                    civicFirstDate = entryData.timestamp;
+                }
             }
         });
         let crvMonthsSinceFirstFillup = ((new Date()).getTime() - crvFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
         let odysseyMonthsSinceFirstFillup = ((new Date()).getTime() - odysseyFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
+        let civicMonthsSinceFirstFillup = ((new Date()).getTime() - civicFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
 
         return {
             crvAvgMpg: (Math.round(crvTotalMiles / crvTotalGallons * 100) / 100).toFixed(1),
@@ -87,7 +115,14 @@ class ListPage extends React.Component {
             odysseyAvgCostPerFillup: (Math.round(odysseyTotalCost / odysseyTotalFillups * 1000) / 1000).toFixed(2),
             odysseyMaxFillCost: odysseyMaxCost.toFixed(2),
             odysseyMaxGallons: (Math.round(odysseyMaxGallons * 100) / 100).toFixed(2),
-            odysseyMaxMiles
+            odysseyMaxMiles,
+            civicAvgMpg: (Math.round(civicTotalMiles / civicTotalGallons * 100) / 100).toFixed(1),
+            civicAvgCostPerMile: (Math.round(civicTotalCost / civicTotalMiles * 1000) / 1000).toFixed(3),
+            civicAvgCostPerMonth: (Math.round(civicTotalCost / civicMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
+            civicAvgCostPerFillup: (Math.round(civicTotalCost / civicTotalFillups * 1000) / 1000).toFixed(2),
+            civicMaxFillCost: civicMaxCost.toFixed(2),
+            civicMaxGallons: (Math.round(civicMaxGallons * 100) / 100).toFixed(2),
+            civicMaxMiles
         };
     };
 
@@ -142,7 +177,14 @@ class ListPage extends React.Component {
             odysseyAvgCostPerFillup,
             odysseyMaxFillCost,
             odysseyMaxGallons,
-            odysseyMaxMiles
+            odysseyMaxMiles,
+            civicAvgMpg,
+            civicAvgCostPerMile,
+            civicAvgCostPerMonth,
+            civicAvgCostPerFillup,
+            civicMaxFillCost,
+            civicMaxGallons,
+            civicMaxMiles
         } = this.calculateStats();
 
         return (
@@ -211,8 +253,45 @@ class ListPage extends React.Component {
                             <span>{odysseyMaxMiles}</span>
                         </div>
                     </div>
+                    <div>
+                        <h4>Civic</h4>
+                        <div className="stats-row">
+                            <span>Avg mpg:</span>
+                            <span>{civicAvgMpg}</span>
+                        </div> {/* 00.0 */}
+                        <div className="stats-row">
+                            <span>Avg $/mi:</span>
+                            <span>${civicAvgCostPerMile}</span>
+                        </div> {/* 0.000 */}
+                        <div className="stats-row">
+                            <span>Avg $/month:</span>
+                            <span>${civicAvgCostPerMonth}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Avg $/fillup:</span>
+                            <span>${civicAvgCostPerFillup}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Max fill $:</span>
+                            <span>${civicMaxFillCost}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Max gal:</span>
+                            <span>{civicMaxGallons}</span>
+                        </div>
+                        <div className="stats-row">
+                            <span>Max miles:</span>
+                            <span>{civicMaxMiles}</span>
+                        </div>
+                    </div>
                 </div>
-                <h3>Fillups <button onClick={() => this.filter('')}>All</button><button onClick={() => this.filter('crv')}>CRV</button><button onClick={() => this.filter('odyssey')}>Odyssey</button></h3>
+                <h3>
+                    Fillups
+                    <button onClick={() => this.filter('')}>All</button>
+                    <button onClick={() => this.filter('crv')}>CRV</button>
+                    <button onClick={() => this.filter('odyssey')}>Odyssey</button>
+                    <button onClick={() => this.filter('civic')}>Civic</button>
+                </h3>
                 {this.buildEntries()}
             </div>
         );

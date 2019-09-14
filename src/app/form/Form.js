@@ -142,6 +142,7 @@ class Form extends React.Component {
                             <select disabled={this.props.entrySuccess} onChange={this.onVehicleChange} value={this.props.vehicle} name="vehicle" id="vehicle">
                                 <option value="odyssey">Odyssey</option>
                                 <option value="crv">CRV</option>
+                                <option value="civic">Civic</option>
                             </select>
                         </label>
                     </div>

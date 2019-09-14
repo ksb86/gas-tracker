@@ -8,3 +8,4 @@ dev/js/
 public/css/
 public/js/
 .env
+config.json
