@@ -40210,7 +40210,7 @@ var Form = function (_React$Component) {
                 total: '',
                 miles: '',
                 odometer: '',
-                vehicle: 'odyssey',
+                vehicle: 'crv',
                 entrySuccess: false,
                 submitDisabled: true,
                 mpg: '--',
@@ -40332,18 +40332,9 @@ var Form = function (_React$Component) {
                                 },
                                 _react2.default.createElement(
                                     'option',
-                                    { value: 'odyssey', __source: {
-                                            fileName: _jsxFileName,
-                                            lineNumber: 143
-                                        }
-                                    },
-                                    'Odyssey'
-                                ),
-                                _react2.default.createElement(
-                                    'option',
                                     { value: 'crv', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 144
+                                            lineNumber: 143
                                         }
                                     },
                                     'CRV'
@@ -40352,7 +40343,7 @@ var Form = function (_React$Component) {
                                     'option',
                                     { value: 'civic', __source: {
                                             fileName: _jsxFileName,
-                                            lineNumber: 145
+                                            lineNumber: 144
                                         }
                                     },
                                     'Civic'
@@ -40365,14 +40356,14 @@ var Form = function (_React$Component) {
                     'div',
                     { className: 'row small-row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 150
+                            lineNumber: 149
                         }
                     },
                     _react2.default.createElement(
                         'button',
                         { type: 'button', className: 'form-reset-btn', onClick: this.resetForm, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 151
+                                lineNumber: 150
                             }
                         },
                         'Clear'
@@ -40382,14 +40373,14 @@ var Form = function (_React$Component) {
                     'div',
                     { className: 'row', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 153
+                            lineNumber: 152
                         }
                     },
                     _react2.default.createElement(
                         'button',
                         { type: 'submit', disabled: this.props.submitDisabled || this.props.entrySuccess, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 154
+                                lineNumber: 153
                             }
                         },
                         'Submit'
@@ -46039,15 +46030,6 @@ var ListPage = function (_React$Component) {
             var crvTotalFillups = 0;
             var crvFirstDate = Date.now();
 
-            var odysseyMaxCost = 0;
-            var odysseyTotalCost = 0;
-            var odysseyMaxMiles = 0;
-            var odysseyTotalMiles = 0;
-            var odysseyMaxGallons = 0;
-            var odysseyTotalGallons = 0;
-            var odysseyTotalFillups = 0;
-            var odysseyFirstDate = Date.now();
-
             var civicMaxCost = 0;
             var civicTotalCost = 0;
             var civicMaxMiles = 0;
@@ -46076,24 +46058,6 @@ var ListPage = function (_React$Component) {
                     if (entryData.timestamp < crvFirstDate) {
                         crvFirstDate = entryData.timestamp;
                     }
-                } else if (entryData.vehicle === 'odyssey') {
-                    if (Number(entryData.total) > odysseyMaxCost) {
-                        odysseyMaxCost = Number(entryData.total);
-                    }
-                    odysseyTotalCost += Number(entryData.total);
-                    odysseyTotalMiles += Number(entryData.miles);
-                    odysseyTotalGallons += entryData.total / entryData.ppg;
-                    if (entryData.total / entryData.ppg > odysseyMaxGallons) {
-                        odysseyMaxGallons = entryData.total / entryData.ppg;
-                    }
-                    if (Number(entryData.miles) > odysseyMaxMiles) {
-                        odysseyMaxMiles = Number(entryData.miles);
-                    }
-                    odysseyTotalFillups++;
-                    // get first fillup for crv
-                    if (entryData.timestamp < odysseyFirstDate) {
-                        odysseyFirstDate = entryData.timestamp;
-                    }
                 } else if (entryData.vehicle === 'civic') {
                     if (Number(entryData.total) > civicMaxCost) {
                         civicMaxCost = Number(entryData.total);
@@ -46115,7 +46079,6 @@ var ListPage = function (_React$Component) {
                 }
             });
             var crvMonthsSinceFirstFillup = (new Date().getTime() - crvFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
-            var odysseyMonthsSinceFirstFillup = (new Date().getTime() - odysseyFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
             var civicMonthsSinceFirstFillup = (new Date().getTime() - civicFirstDate) / 1000 / 60 / 60 / 24 / 30.52;
 
             return {
@@ -46126,13 +46089,6 @@ var ListPage = function (_React$Component) {
                 crvMaxFillCost: crvMaxCost.toFixed(2),
                 crvMaxGallons: (Math.round(crvMaxGallons * 100) / 100).toFixed(2),
                 crvMaxMiles: crvMaxMiles,
-                odysseyAvgMpg: (Math.round(odysseyTotalMiles / odysseyTotalGallons * 100) / 100).toFixed(1),
-                odysseyAvgCostPerMile: (Math.round(odysseyTotalCost / odysseyTotalMiles * 1000) / 1000).toFixed(3),
-                odysseyAvgCostPerMonth: (Math.round(odysseyTotalCost / odysseyMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
-                odysseyAvgCostPerFillup: (Math.round(odysseyTotalCost / odysseyTotalFillups * 1000) / 1000).toFixed(2),
-                odysseyMaxFillCost: odysseyMaxCost.toFixed(2),
-                odysseyMaxGallons: (Math.round(odysseyMaxGallons * 100) / 100).toFixed(2),
-                odysseyMaxMiles: odysseyMaxMiles,
                 civicAvgMpg: (Math.round(civicTotalMiles / civicTotalGallons * 100) / 100).toFixed(1),
                 civicAvgCostPerMile: (Math.round(civicTotalCost / civicTotalMiles * 1000) / 1000).toFixed(3),
                 civicAvgCostPerMonth: (Math.round(civicTotalCost / civicMonthsSinceFirstFillup * 1000) / 1000).toFixed(2),
@@ -46161,7 +46117,7 @@ var ListPage = function (_React$Component) {
                             deleteEntry: _this.deleteEntry,
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 141
+                                lineNumber: 106
                             }
                         }));
                         previous = entryData.miles;
@@ -46173,7 +46129,7 @@ var ListPage = function (_React$Component) {
                         deleteEntry: _this.deleteEntry,
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 149
+                            lineNumber: 114
                         }
                     }));
                 }
@@ -46207,13 +46163,6 @@ var ListPage = function (_React$Component) {
                 crvMaxFillCost = _calculateStats.crvMaxFillCost,
                 crvMaxGallons = _calculateStats.crvMaxGallons,
                 crvMaxMiles = _calculateStats.crvMaxMiles,
-                odysseyAvgMpg = _calculateStats.odysseyAvgMpg,
-                odysseyAvgCostPerMile = _calculateStats.odysseyAvgCostPerMile,
-                odysseyAvgCostPerMonth = _calculateStats.odysseyAvgCostPerMonth,
-                odysseyAvgCostPerFillup = _calculateStats.odysseyAvgCostPerFillup,
-                odysseyMaxFillCost = _calculateStats.odysseyMaxFillCost,
-                odysseyMaxGallons = _calculateStats.odysseyMaxGallons,
-                odysseyMaxMiles = _calculateStats.odysseyMaxMiles,
                 civicAvgMpg = _calculateStats.civicAvgMpg,
                 civicAvgCostPerMile = _calculateStats.civicAvgCostPerMile,
                 civicAvgCostPerMonth = _calculateStats.civicAvgCostPerMonth,
@@ -46226,7 +46175,7 @@ var ListPage = function (_React$Component) {
                 'div',
                 { className: 'list-page', __source: {
                         fileName: _jsxFileName,
-                        lineNumber: 191
+                        lineNumber: 149
                     }
                 },
                 _react2.default.createElement(
@@ -46234,7 +46183,7 @@ var ListPage = function (_React$Component) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 192
+                            lineNumber: 150
                         }
                     },
                     'Stats'
@@ -46243,7 +46192,7 @@ var ListPage = function (_React$Component) {
                     'div',
                     { className: 'statsContainer', __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 193
+                            lineNumber: 151
                         }
                     },
                     _react2.default.createElement(
@@ -46251,7 +46200,7 @@ var ListPage = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 194
+                                lineNumber: 152
                             }
                         },
                         _react2.default.createElement(
@@ -46259,7 +46208,7 @@ var ListPage = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 195
+                                    lineNumber: 153
                                 }
                             },
                             'CRV'
@@ -46268,7 +46217,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 196
+                                    lineNumber: 154
                                 }
                             },
                             _react2.default.createElement(
@@ -46276,7 +46225,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 197
+                                        lineNumber: 155
                                     }
                                 },
                                 'Avg mpg:'
@@ -46286,7 +46235,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 198
+                                        lineNumber: 156
                                     }
                                 },
                                 crvAvgMpg
@@ -46297,7 +46246,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 200
+                                    lineNumber: 158
                                 }
                             },
                             _react2.default.createElement(
@@ -46305,7 +46254,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 201
+                                        lineNumber: 159
                                     }
                                 },
                                 'Avg $/mi:'
@@ -46315,7 +46264,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 202
+                                        lineNumber: 160
                                     }
                                 },
                                 '$',
@@ -46327,7 +46276,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 204
+                                    lineNumber: 162
                                 }
                             },
                             _react2.default.createElement(
@@ -46335,7 +46284,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 205
+                                        lineNumber: 163
                                     }
                                 },
                                 'Avg $/month:'
@@ -46345,7 +46294,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 206
+                                        lineNumber: 164
                                     }
                                 },
                                 '$',
@@ -46356,7 +46305,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 208
+                                    lineNumber: 166
                                 }
                             },
                             _react2.default.createElement(
@@ -46364,7 +46313,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 209
+                                        lineNumber: 167
                                     }
                                 },
                                 'Avg $/fillup:'
@@ -46374,7 +46323,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 210
+                                        lineNumber: 168
                                     }
                                 },
                                 '$',
@@ -46385,7 +46334,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 212
+                                    lineNumber: 170
                                 }
                             },
                             _react2.default.createElement(
@@ -46393,7 +46342,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 213
+                                        lineNumber: 171
                                     }
                                 },
                                 'Max fill $:'
@@ -46403,7 +46352,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 214
+                                        lineNumber: 172
                                     }
                                 },
                                 '$',
@@ -46414,7 +46363,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 216
+                                    lineNumber: 174
                                 }
                             },
                             _react2.default.createElement(
@@ -46422,7 +46371,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 217
+                                        lineNumber: 175
                                     }
                                 },
                                 'Max gal:'
@@ -46432,7 +46381,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 218
+                                        lineNumber: 176
                                     }
                                 },
                                 crvMaxGallons
@@ -46442,7 +46391,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 220
+                                    lineNumber: 178
                                 }
                             },
                             _react2.default.createElement(
@@ -46450,7 +46399,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 221
+                                        lineNumber: 179
                                     }
                                 },
                                 'Max miles:'
@@ -46460,7 +46409,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 222
+                                        lineNumber: 180
                                     }
                                 },
                                 crvMaxMiles
@@ -46472,7 +46421,7 @@ var ListPage = function (_React$Component) {
                         {
                             __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 225
+                                lineNumber: 183
                             }
                         },
                         _react2.default.createElement(
@@ -46480,228 +46429,7 @@ var ListPage = function (_React$Component) {
                             {
                                 __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 226
-                                }
-                            },
-                            'Odyssey'
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 227
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 228
-                                    }
-                                },
-                                'Avg mpg:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 229
-                                    }
-                                },
-                                odysseyAvgMpg
-                            )
-                        ),
-                        ' ',
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 231
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 232
-                                    }
-                                },
-                                'Avg $/mi:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 233
-                                    }
-                                },
-                                '$',
-                                odysseyAvgCostPerMile
-                            )
-                        ),
-                        ' ',
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 235
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 236
-                                    }
-                                },
-                                'Avg $/month:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 237
-                                    }
-                                },
-                                '$',
-                                odysseyAvgCostPerMonth
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 239
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 240
-                                    }
-                                },
-                                'Avg $/fillup:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 241
-                                    }
-                                },
-                                '$',
-                                odysseyAvgCostPerFillup
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 243
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 244
-                                    }
-                                },
-                                'Max fill $:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 245
-                                    }
-                                },
-                                '$',
-                                odysseyMaxFillCost
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 247
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 248
-                                    }
-                                },
-                                'Max gal:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 249
-                                    }
-                                },
-                                odysseyMaxGallons
-                            )
-                        ),
-                        _react2.default.createElement(
-                            'div',
-                            { className: 'stats-row', __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 251
-                                }
-                            },
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 252
-                                    }
-                                },
-                                'Max miles:'
-                            ),
-                            _react2.default.createElement(
-                                'span',
-                                {
-                                    __source: {
-                                        fileName: _jsxFileName,
-                                        lineNumber: 253
-                                    }
-                                },
-                                odysseyMaxMiles
-                            )
-                        )
-                    ),
-                    _react2.default.createElement(
-                        'div',
-                        {
-                            __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 256
-                            }
-                        },
-                        _react2.default.createElement(
-                            'h4',
-                            {
-                                __source: {
-                                    fileName: _jsxFileName,
-                                    lineNumber: 257
+                                    lineNumber: 184
                                 }
                             },
                             'Civic'
@@ -46710,7 +46438,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 258
+                                    lineNumber: 185
                                 }
                             },
                             _react2.default.createElement(
@@ -46718,7 +46446,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 259
+                                        lineNumber: 186
                                     }
                                 },
                                 'Avg mpg:'
@@ -46728,7 +46456,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 260
+                                        lineNumber: 187
                                     }
                                 },
                                 civicAvgMpg
@@ -46739,7 +46467,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 262
+                                    lineNumber: 189
                                 }
                             },
                             _react2.default.createElement(
@@ -46747,7 +46475,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 263
+                                        lineNumber: 190
                                     }
                                 },
                                 'Avg $/mi:'
@@ -46757,7 +46485,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 264
+                                        lineNumber: 191
                                     }
                                 },
                                 '$',
@@ -46769,7 +46497,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 266
+                                    lineNumber: 193
                                 }
                             },
                             _react2.default.createElement(
@@ -46777,7 +46505,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 267
+                                        lineNumber: 194
                                     }
                                 },
                                 'Avg $/month:'
@@ -46787,7 +46515,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 268
+                                        lineNumber: 195
                                     }
                                 },
                                 '$',
@@ -46798,7 +46526,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 270
+                                    lineNumber: 197
                                 }
                             },
                             _react2.default.createElement(
@@ -46806,7 +46534,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 271
+                                        lineNumber: 198
                                     }
                                 },
                                 'Avg $/fillup:'
@@ -46816,7 +46544,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 272
+                                        lineNumber: 199
                                     }
                                 },
                                 '$',
@@ -46827,7 +46555,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 274
+                                    lineNumber: 201
                                 }
                             },
                             _react2.default.createElement(
@@ -46835,7 +46563,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 275
+                                        lineNumber: 202
                                     }
                                 },
                                 'Max fill $:'
@@ -46845,7 +46573,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 276
+                                        lineNumber: 203
                                     }
                                 },
                                 '$',
@@ -46856,7 +46584,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 278
+                                    lineNumber: 205
                                 }
                             },
                             _react2.default.createElement(
@@ -46864,7 +46592,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 279
+                                        lineNumber: 206
                                     }
                                 },
                                 'Max gal:'
@@ -46874,7 +46602,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 280
+                                        lineNumber: 207
                                     }
                                 },
                                 civicMaxGallons
@@ -46884,7 +46612,7 @@ var ListPage = function (_React$Component) {
                             'div',
                             { className: 'stats-row', __source: {
                                     fileName: _jsxFileName,
-                                    lineNumber: 282
+                                    lineNumber: 209
                                 }
                             },
                             _react2.default.createElement(
@@ -46892,7 +46620,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 283
+                                        lineNumber: 210
                                     }
                                 },
                                 'Max miles:'
@@ -46902,7 +46630,7 @@ var ListPage = function (_React$Component) {
                                 {
                                     __source: {
                                         fileName: _jsxFileName,
-                                        lineNumber: 284
+                                        lineNumber: 211
                                     }
                                 },
                                 civicMaxMiles
@@ -46915,7 +46643,7 @@ var ListPage = function (_React$Component) {
                     {
                         __source: {
                             fileName: _jsxFileName,
-                            lineNumber: 288
+                            lineNumber: 215
                         }
                     },
                     'Fillups',
@@ -46925,7 +46653,7 @@ var ListPage = function (_React$Component) {
                                 return _this2.filter('');
                             }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 290
+                                lineNumber: 217
                             }
                         },
                         'All'
@@ -46936,7 +46664,7 @@ var ListPage = function (_React$Component) {
                                 return _this2.filter('crv');
                             }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 291
+                                lineNumber: 218
                             }
                         },
                         'CRV'
@@ -46944,21 +46672,10 @@ var ListPage = function (_React$Component) {
                     _react2.default.createElement(
                         'button',
                         { onClick: function onClick() {
-                                return _this2.filter('odyssey');
-                            }, __source: {
-                                fileName: _jsxFileName,
-                                lineNumber: 292
-                            }
-                        },
-                        'Odyssey'
-                    ),
-                    _react2.default.createElement(
-                        'button',
-                        { onClick: function onClick() {
                                 return _this2.filter('civic');
                             }, __source: {
                                 fileName: _jsxFileName,
-                                lineNumber: 293
+                                lineNumber: 219
                             }
                         },
                         'Civic'
@@ -47903,7 +47620,7 @@ var initialState = exports.initialState = {
     total: '',
     miles: '',
     odometer: '',
-    vehicle: 'odyssey',
+    vehicle: 'crv',
     entrySuccess: false,
     submitDisabled: true,
     mpg: '--',
